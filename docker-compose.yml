@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+  glarf-app:
+    container_name: glarfapp
+    image: ${DOCKER_REGISTRY-}glarfapp
+    build:
+      context: .
+      dockerfile: glarf-app/Dockerfile
+    ports:
+      - "9000:443"
+      - "9001:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=9000
+      #- ASPNETCORE_Kestrel__Certificates__Default__Password=mypass123
+      #- ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    #volumes:
+        #- ./glarf-app/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
+
+  glarf-db:
+    container_name: glarfdb
+    image: "postgres" # use latest official postgres version
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
+    ports:
+      - "5432:5432"
+volumes:
+  database-data: # named volumes can be managed easier using docker-compose
