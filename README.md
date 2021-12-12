@@ -4,9 +4,8 @@ Glarf is a fantasy football game for really slow, long term play and people who 
 
 ## TODO
 
-- migrate dockerfile to docker-compose
-  - don't store secrets in .env file
-  - deploy to Azure
+- don't store secrets poorly
+- deploy to Azure
 - make entities for
   - player
   - team
